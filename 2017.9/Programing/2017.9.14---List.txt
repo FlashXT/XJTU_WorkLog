@@ -1,0 +1,27 @@
+Python List使用
+1. List:
+        list0=['a','b','c','d']
+
+2. 访问修改List:
+
+    ①访问List元素:
+		 list0[1],
+		 list0[0:3],
+		 list0[-3:-1]//最后一个元素下标为-1，仅当列表为空时，使用-1引用最后一个元素会出错
+		 list0[0:5:2]//list0[始下标:终下标:步长]，有步长时终下标可以省略；
+	②修改List元素：
+		 list0[i]="AAA"					//修改元素
+		 
+		 list0.append() 				//在list0末尾添加元素
+		 list0.insert(i,'KKK')			//在指定位置插入元素
+		 
+		 k=list0.pop()  				//删除list0末尾的元素并返回
+		 k=list0.pop(i)  				//删除下标为i的元素并返回
+		 
+		 del list0[i]   				//删除list0中下标为i的元素
+		 list0.remove('AAA')			//根据值删除元素，只删除第一个
+		 
+		 
+		 
+	
+	

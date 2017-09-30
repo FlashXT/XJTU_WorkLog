@@ -1,0 +1,8 @@
+					$操作列表$
+①for循环:
+   for i in range(len(list)):
+        print list(i)
+   foreach:
+    for i in list:
+	    print i
+	    
