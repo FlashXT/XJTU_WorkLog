@@ -1,0 +1,7 @@
+I love programing.
+I love python.
+I love creating new games.
+==============================================
+I also love finding meaning in large datasets.
+I love creating apps that can run in a browser.
+I love learning Python and C.
