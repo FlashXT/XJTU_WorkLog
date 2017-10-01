@@ -13,10 +13,13 @@ print "=================================="
 with open(filename) as file_object:
 	for line in file_object:
 		print(line)
+
 print "=================================="	
 with open(filename) as file_object:
 	lines=file_object.readlines()
+	print 'lines =' +str(lines)
 	for line in lines:
 		print(line.rstrip())		
+print "=================================="	
 
 
