@@ -1,0 +1,3 @@
+In Python you can use list;
+In Python you can catch web page;
+In Python you can programing convenient
