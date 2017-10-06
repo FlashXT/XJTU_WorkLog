@@ -1,6 +1,8 @@
 #coding=utf-8
 #2017.10.6,Flash, catch edu website
 
+#模拟登录并未实现，待后期修改实现
+
 import urllib
 import urllib2
 import cookielib
