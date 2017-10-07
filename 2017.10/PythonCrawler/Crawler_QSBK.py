@@ -1,19 +1,30 @@
 #coding=utf-8
-#2017.10.5,0:00,Falsh,爬虫糗事百科
+#2017.10.6,Flash,糗事百科
+
 import urllib
 import urllib2
+import re
+url = "https://www.qiushibaike.com/hot/page/1/"
+user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0"
+header= {"User-Agent":user_agent}
 
-page = 1
-url="https://www.qiushibaike.com/hot"
-user_agent='Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-headers={"User-Agent":user_agent}
 try:
-	 request = urllib2.Request(url)
-	 response = urllib2.urlopen(request)
-	 print response.read()
+	request = urllib2.Request(url,headers = header)
+	response = urllib2.urlopen(request)
+	#content = response.read().decode('utf-8')
+	#pattern = re.compile('&lt;h2&gt;(.*?)&lt;/h2&gt;.*?&lt;span&gt;(.*?)&lt;/span&gt;.*?&lt;span class=stats-vote&gt;&lt;i class=number&gt;(.*?)&lt;/i&gt;.*?&lt;i class=number&gt;(.*?)&lt;/i&gt;',re.S)
+	#items = re.findall(pattern,content)
+
+	#for item in items:
+	#	haveImg = re.search(img,item[2])
+	#	if not haveImg:
+	#		print item[0],item[1],item[3],item[4]
+	print response.read()
 except urllib2.URLError,e:
-	 if hasattr(e,"code"):
-		 print e.code
-	 if hasattr(e,"reason"):
-		 print e.reason
-		 
+	if hasattr(e,"code"):
+		print e.code
+	if hasattr(e,"reason"):
+		print e.reason
+
+	
+
