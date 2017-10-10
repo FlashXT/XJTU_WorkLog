@@ -11,14 +11,12 @@ header= {"User-Agent":user_agent}
 try:
 	request = urllib2.Request(url,headers = header)
 	response = urllib2.urlopen(request)
-	#content = response.read().decode('utf-8')
-	#pattern = re.compile('&lt;h2&gt;(.*?)&lt;/h2&gt;.*?&lt;span&gt;(.*?)&lt;/span&gt;.*?&lt;span class=stats-vote&gt;&lt;i class=number&gt;(.*?)&lt;/i&gt;.*?&lt;i class=number&gt;(.*?)&lt;/i&gt;',re.S)
-	#items = re.findall(pattern,content)
+	content = response.read().decode('utf-8')
+	pattern = re.compile('<div.*?id="content"class="main">.*?<div.*?id=(.*?).*?class.*?>')
+	items = re.findall(pattern,content)
 
-	#for item in items:
-	#	haveImg = re.search(img,item[2])
-	#	if not haveImg:
-	#		print item[0],item[1],item[3],item[4]
+	for item in items:
+			print item
 	print response.read()
 except urllib2.URLError,e:
 	if hasattr(e,"code"):
