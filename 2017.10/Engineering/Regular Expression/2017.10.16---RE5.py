@@ -3,8 +3,8 @@
 print "========Re========"
 import re
 
-pattern = re.compile(r'')
-result1 = re.findall(pattern,"hello 123")
+pattern = re.compile(r'\w')
+result1 = re.findall(pattern,"hello 1237")
 if result1 :
 	print result1
 else:
