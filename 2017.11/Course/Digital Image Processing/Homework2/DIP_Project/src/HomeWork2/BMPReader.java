@@ -51,7 +51,7 @@ public class BMPReader extends Object
 	  	in.readUnsignedShort();
 	  	
 	  	int bitCount = intelShort(in.readUnsignedShort());
-	  	
+	  	System.out.println("bitCount="+bitCount);
 	  	int compressionType = intelInt(in.readInt());
 	  	
 	  	int imageSize = intelInt(in.readInt());
@@ -69,7 +69,7 @@ public class BMPReader extends Object
 	    //Read the bitmap's color table
 	    for(int i = 0; i < colorsUsed; i++)
 	        colorTable[i] = (intelInt(in.readInt())&0xffffff)+0xff000000;
-	    	    
+	    System.out.println("colorTable[i]="+colorTable[0]);	    
 	    //Create space for the pixels
 	  	int pixels[] = new int[width*height];
 	  	//Read the pixels from the stream based on the compression type
