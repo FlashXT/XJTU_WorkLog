@@ -1,4 +1,4 @@
-package HomeWork2;
+package Test;
 
 import java.io.ByteArrayInputStream;  
 import java.io.DataInputStream;  
@@ -6,7 +6,7 @@ import java.io.IOException;
 public class Test_JVM_Endian {
 	
 	    /** 
-	     * 将字节数组（byte[]）转为整形(int) 
+	     * 妫�楠孞VM鐨勫ぇ灏忕妯″紡 
 	     */  
 	    public static void main(String[] args) throws IOException  
 	    {  

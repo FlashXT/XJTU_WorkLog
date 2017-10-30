@@ -3,43 +3,68 @@ package HomeWork2;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MyBMPReader {
-	public static void main(String [] args)throws IOException{
-		 String src="images\\Lena.bmp";
+public class MyBmpReader extends Object{
+	
+	public MyBmpReader(){	}
+	public void BmpRerader(String src) throws Exception{
 		 FileInputStream fis=new FileInputStream(src);
 		 DataInputStream in=new DataInputStream(fis);
-		 //¶ÁÈ¡ÎÄ¼þ±êÊ¶
+		 //read the flag of bmp image
 		 byte [] fileflag=new byte[2];
 		 in.read(fileflag);
+		 System.out.println(fileflag[0]+" "+fileflag[1]);
 		 System.out.println((char)fileflag[0]+" "+(char)fileflag[1]);
-		 //¶ÁÈ¡ÎÄ¼þ´óÐ¡
+		 //read the whole file size
 		 byte [] filesize=new byte[4];
 		 in.read(filesize);
-		 int num=Byte2Int(filesize);
-		 System.out.println(num);
-		 //Ìø¹ý±£Áô×Ö
+		 for(byte i : filesize)
+			 System.out.println(i);
+//		 int num=Byte2Int(filesize);
+//		 System.out.println(num);
+		 //skip the reserved word
 		 in.skip(4);
 		 
-		 //»ñÈ¡Í¼ÏñÊý¾ÝÇøµÄÆðÊ¼Î»ÖÃ
+		 //read the data field begin point
 		 byte [] offset=new byte[4];
 		 in.read(offset);
 		 int dataoffset=Byte2Int(offset);
-		 System.out.println(dataoffset);
-		 //»ñÈ¡Í¼ÏñÐÅÏ¢¿éµÄ´óÐ¡
-		 byte [] info=new byte[4];
-		 in.read(info);
-		 int bmpinfo=Byte2Int(info);
-		 System.out.println(bmpinfo);
+		 System.out.println("dataoffset="+dataoffset);
+		 //ï¿½ï¿½È¡Í¼ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ä´ï¿½Ð¡
+		 in.skip(4);
+		 byte [] height=new byte[4];
+		 in.read(height);
+		 for(byte i : height)
+			 System.out.println(i);
+			 
+		 //int Heigth=Byte2Int(height);
+		 System.out.println("Heigth:"+height[3]);
+		 
+		 byte [] wide=new byte[4];
+		 in.read(wide);
+		 int Width=Byte2Int(wide);
+		 System.out.println("Width:"+Width);
+	}	 
+	protected static int Byte2Int(byte [] b)
+		    {
+		  	    return((b[3]&0xff)<<24)|((b[2]&0xff)<<16)|((b[1]&0xff)<<8)|(b[0]&0xff);
+		    }	
+		
+	public static void main(String [] args){
+		 String src="images\\Lena.bmp";
+		 MyBmpReader bmp= new MyBmpReader();
+		 try{
+			 bmp.BmpRerader(src);
+		 }
+		 catch(Exception e){
+			 System.out.println(e.getStackTrace());
+		 }
 		 
 
 	}
-protected static int Byte2Int(byte [] b)
-	    {
-	  	    return((b[3]&0xff)<<24)|((b[2]&0xff)<<16)|((b[1]&0xff)<<8)|(b[0]&0xff);
-	    }
 }
