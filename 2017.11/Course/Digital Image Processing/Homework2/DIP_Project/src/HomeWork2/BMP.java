@@ -271,7 +271,7 @@ public class BMP {
 		 try {
 			 	BMP bmp = new BMP(src);
 			 	bmp.toString();
-			 	bmp.outPut("lena2.bmp",20);
+			 	bmp.outPut("lena2.bmp",30);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			    e.printStackTrace();
