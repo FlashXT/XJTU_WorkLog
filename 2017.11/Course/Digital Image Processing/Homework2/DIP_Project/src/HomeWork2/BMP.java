@@ -2,64 +2,60 @@ package HomeWork2;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 public class BMP {
 	
 	//define the bitmap file header
-	//define the header of bitmap
-	 byte []bmpheader= new byte[2];
-	 
-    //define the whole file size
-	 byte [] filesize=new byte[4];
-	 
-	//define the reserved word
-	 byte [] reservedWord = new byte[4];	
-	 
-	//define the data field offset
-	 byte [] bitmapOffset = new byte[4];
+		//define the header of bitmap
+		 byte []bmpheader= new byte[2];
+		 
+	    //define the whole file size
+		 byte [] filesize=new byte[4];
+		 
+		//define the reserved word
+		 byte [] reservedWord = new byte[4];	
+		 
+		//define the data field offset
+		 byte [] bitmapOffset = new byte[4];
 	 
 	//define the bitmap information header
-	//define the info field of bitmap
-	 byte [] bitmapInfoSize = new byte[4];
-	 
-	//define the height and width of the bitmap	 
-	 
-	 byte [] width=new byte[4];
-	 byte [] height=new byte[4];
-	 
-	//define the 16-bit bitPlane size
-	 byte [] bitPlane =new byte[2];
-	 
-	//define the bitCount of the bitmap
-	 byte [] bitCount = new byte[2];
-	 
-	//define the compressionType of bitmap
-	 byte [] compressionType = new byte[4];
+		//define the info field of bitmap
+		 byte [] bitmapInfoSize = new byte[4];
+		 
+		//define the height and width of the bitmap	 
+		 
+		 byte [] width=new byte[4];
+		 byte [] height=new byte[4];
+		 
+		//define the 16-bit bitPlane size
+		 byte [] bitPlane =new byte[2];
+		 
+		//define the bitCount of the bitmap
+		 byte [] bitCount = new byte[2];
+		 
+		//define the compressionType of bitmap
+		 byte [] compressionType = new byte[4];
+		
+		//define the imageSize of bitmap
+		 byte [] imageSize=new byte[4];
+		 
+		//define the number of pixel in per meter
+		 byte [] XpixelPerMeter=new byte[4];
+		 byte [] YpixelPerMeter=new byte[4];
+		 
+		//define the colorUsed of bitmap
+		 byte [] colorUsed = new byte[4];
 	
-	//define the imageSize of bitmap
-	 byte [] imageSize=new byte[4];
-	 
-	//define the number of pixel in per meter
-	 byte [] XpixelPerMeter=new byte[4];
-	 byte [] YpixelPerMeter=new byte[4];
-	 
-	//define the colorUsed of bitmap
-	 byte [] colorUsed = new byte[4];
-
-	//define the importantColor of bitmap
-	 byte [] importantColor = new byte[4];
+		//define the importantColor of bitmap
+		 byte [] importantColor = new byte[4];
 		 
 	//define the color table of the bitmap
-	 byte [] []colorTable;
+		 byte [] []colorTable;
 	 
 	//define the bitmap data field
-	 byte bmpData[][];
+		 byte bmpData[][];
 	 
 	 //Constructor
 	 public BMP(){	}
@@ -68,17 +64,17 @@ public class BMP {
 		 
 		 FileInputStream fis=new FileInputStream(src);
 		 DataInputStream in=new DataInputStream(fis);
-		//read the bitmap file header
-			 //read the header of bitmap
+		 //read the bitmap file header
+			//read the header of bitmap
 			 	in.read(this.bmpheader);
-		     //read the whole file size
+			//read the whole file size
 			 	in.read(filesize);
-			 //read the reserved word
+			//read the reserved word
 			 	in.read(reservedWord);	
-			 //read the data field offset
+			//read the data field offset
 			 	in.read(bitmapOffset);
-			 
-	    //read the bitmap information header
+			
+		//read the bitmap information header
 			//read the info field of bitmap
 			 	in.read(bitmapInfoSize); 
 			//read the height and width of the bitmap	 
@@ -92,14 +88,11 @@ public class BMP {
 			 	in.read(compressionType);
 			//read the imageSize of bitmap
 			 	in.read(imageSize);
-			 
 			//read the number of pixel in per meter
 			 	in.read(XpixelPerMeter);
 			 	in.read(YpixelPerMeter);
-			 
 			//read the colorUsed of bitmap
 			 	in.read(colorUsed);
-			
 			//read the importantColor of bitmap
 			 	in.read(importantColor);
 				 
@@ -118,19 +111,25 @@ public class BMP {
 		 //read the bitmap data field
 			 	 bmpData=new byte[Byte2Int(height)][Byte2Int(width)];
 				 byte [] b =new byte[1];
-				 for(int m=0;m<bmpData.length;m++){
+				 for(int m = 0;m < bmpData.length;m ++){
 					 
-					 for(int n=0;n<bmpData[m].length;n++){
+					 for(int n = 0;n < bmpData[m].length;n ++){
 						 in.read(b);
-						 bmpData[m][n]=b[0];	 
+						 bmpData[m][n] = b[0];	 
 					 }
 					 
 				 }
+				 fis.close();in.close();
 	 }
 	 
 	 public byte [][] getbitMapData(){
 		 
 		 return this.bmpData;
+	 }
+	 
+	 public byte [][] getColorTable(){
+		 
+		 return this.colorTable;
 	 }
 
 	 public String toString(){
@@ -184,9 +183,9 @@ public class BMP {
 			 
 		 //from the bottom left to the upper height 	 
 //		 System.out.println("The bitmap data field:\n\tR\tG\tB");
-		 System.out.println("The bitmap data field:\n\t\t\tbtimap Data.txt");
+		 System.out.println("The bitmap data field:\n\t\t\tbtimapData.txt");
 		 try {
-				fos2 = new FileOutputStream("bitmap Data.txt");
+				fos2 = new FileOutputStream("bitmapData.txt");
 				DataOutputStream dos2 = new DataOutputStream(fos2);
 //				dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);
 				for(int i = bmpData.length-1; i >=0 ; i--){
@@ -211,26 +210,7 @@ public class BMP {
 		 return null;
 		 
 	 }
-	 
-	 
-	 
-	//converts a 16-bit or 32-bit number  stored in Big-Endian byte order into int
-	protected static int Byte2Int(byte [] b)
-	    {	if(b.length == 4)
-	  	     	return((b[3]&0xff)<<24)|((b[2]&0xff)<<16)|((b[1]&0xff)<<8)|(b[0]&0xff);
-	    	else
-	    		return((b[1]&0xff)<<8)|(b[0]&0xff);
-	    }
-	
-	//converts a int number into Big-Endian byte order
-	protected static void Int2ByteArray(int i,byte[] b)
-    {	
-	   b[3] = (byte) ((i>>24)&0xff);
-	   b[2] = (byte) ((i>>16)&0xff);
-	   b[1] = (byte) ((i>>8)&0xff);
-	   b[0] = (byte) (i&0xff);
-    }
-	
+	 	
 	//output the processed bmp
 	public void outPut(String dest,int threshold) throws Exception{
 		
@@ -275,9 +255,24 @@ public class BMP {
 					dos.write(bmpData[i][j]);
 				}			 
 			 }
-		
+		fos.close();dos.close();
 	}
-	
+	//converts a 16-bit or 32-bit number  stored in Big-Endian byte order into int
+		protected static int Byte2Int(byte [] b)
+		    {	if(b.length == 4)
+		  	     	return((b[3]&0xff)<<24)|((b[2]&0xff)<<16)|((b[1]&0xff)<<8)|(b[0]&0xff);
+		    	else
+		    		return((b[1]&0xff)<<8)|(b[0]&0xff);
+		    }
+		
+	//converts a int number into Big-Endian byte order
+		protected static void Int2ByteArray(int i,byte[] b)
+		    {	
+			   b[3] = (byte) ((i>>24)&0xff);
+			   b[2] = (byte) ((i>>16)&0xff);
+			   b[1] = (byte) ((i>>8)&0xff);
+			   b[0] = (byte) (i&0xff);
+		    }	
 	
 	public static void main(String[] args){
 		String src="images\\Lena.bmp";
