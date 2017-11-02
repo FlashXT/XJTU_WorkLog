@@ -2,10 +2,12 @@ package HomeWork2;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class BMP {
 	
@@ -153,6 +155,7 @@ public class BMP {
 		 System.out.println("\timportantColor:\t\t"+Byte2Int(this.importantColor));
 		 
 //		 System.out.println("The color table of the bitmap:\n\tB\tG\tR\tR");
+		 System.out.println("The color table of the bitmap:\n\t\t\tcolorTable.txt");
 //		 for(int i = 0; i < colorTable.length; i++){
 //			 for(int j = 0; j < 4; j++)
 //				 System.out.print("\t"+(colorTable[i][j]&0xff));
@@ -161,29 +164,38 @@ public class BMP {
 		 
 		FileOutputStream fos = null,fos2 = null;
 		
-//		try {
-//				fos = new FileOutputStream("colorTable.txt");
-//				DataOutputStream dos = new DataOutputStream(fos);
-//				for(int i = 0; i < colorTable.length; i++)
-//					 for(int j = 0; j <colorTable[i].length; j++)
-//						 dos.write((colorTable[i][j])&0xff);
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-    
+		try {
+				fos = new FileOutputStream("colorTable.txt");				
+				 DataOutputStream dos = new DataOutputStream(fos);
+				dos.write("R\tB\tG\tR\n".getBytes("UTF-8"));
+				for(int i = 0; i < colorTable.length; i++){
+					
+				
+					 for(int j = colorTable[i].length-2; j>=0; j--)
+						 dos.write((Integer.toString(colorTable[i][j]&0xff)+"\t").getBytes("UTF-8"));
+					dos.write((Integer.toString(colorTable[i][colorTable[i].length-1]&0xff)+"\t").getBytes("UTF-8"));
+					 dos.write("\n".getBytes("UTF-8"));
+				}	
+				dos.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
 		 //from the bottom left to the upper height 	 
-		 System.out.println("The bitmap data field:\n\tR\tG\tB");
-		 
+//		 System.out.println("The bitmap data field:\n\tR\tG\tB");
+		 System.out.println("The bitmap data field:\n\t\t\tbtimap Data.txt");
 		 try {
 				fos2 = new FileOutputStream("bitmap Data.txt");
 				DataOutputStream dos2 = new DataOutputStream(fos2);
-				dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);
-				for(int i = 0; i < bmpData.length; i++)
+//				dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);
+				for(int i = bmpData.length-1; i >=0 ; i--){
 					 for(int j = 0; j <bmpData[i].length; j++)
-						 dos2.write(bmpData[i][j]&0xff);
-//						 System.out.println(bmpData[i][j]&0xff);
-			} catch (Exception e) {
+						 dos2.write((Integer.toString(bmpData[i][j]&0xff)+"\t").getBytes("UTF-8"));
+					 dos2.write("\n".getBytes("UTF-8"));
+				}
+				dos2.close();
+		 	} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
