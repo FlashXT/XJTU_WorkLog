@@ -159,29 +159,30 @@ public class BMP {
 //			 System.out.println();
 //		 }
 		 
-		FileOutputStream fos = null;
+		FileOutputStream fos = null,fos2 = null;
 		
-		try {
-				fos = new FileOutputStream("colorTable.txt");
-				DataOutputStream dos = new DataOutputStream(fos);
-				for(int i = 0; i < colorTable.length; i++)
-					 for(int j = 0; j <colorTable[i].length; j++)
-						 dos.write((colorTable[i][j])&0xff);
-					System.out.println();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//		try {
+//				fos = new FileOutputStream("colorTable.txt");
+//				DataOutputStream dos = new DataOutputStream(fos);
+//				for(int i = 0; i < colorTable.length; i++)
+//					 for(int j = 0; j <colorTable[i].length; j++)
+//						 dos.write((colorTable[i][j])&0xff);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
     
 		 //from the bottom left to the upper height 	 
 		 System.out.println("The bitmap data field:\n\tR\tG\tB");
 		 
 		 try {
-				fos = new FileOutputStream("bitmap Data.txt");
-				DataOutputStream dos = new DataOutputStream(fos);
+				fos2 = new FileOutputStream("bitmap Data.txt");
+				DataOutputStream dos2 = new DataOutputStream(fos2);
+				dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);dos2.write(0);
 				for(int i = 0; i < bmpData.length; i++)
 					 for(int j = 0; j <bmpData[i].length; j++)
-						 dos.write((bmpData[i][j])&0xff);
+						 dos2.write(bmpData[i][j]&0xff);
+//						 System.out.println(bmpData[i][j]&0xff);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
