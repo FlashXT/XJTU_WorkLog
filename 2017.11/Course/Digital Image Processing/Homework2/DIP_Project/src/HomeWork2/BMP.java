@@ -9,7 +9,7 @@ public class BMP {
 	
 	//define the bitmap file header
 		//define the header of bitmap
-		 byte []bmpheader= new byte[2];
+		public byte []bmpheader= new byte[2];
 		 
 	    //define the whole file size
 		 byte [] filesize=new byte[4];
@@ -121,17 +121,7 @@ public class BMP {
 				 }
 				 fis.close();in.close();
 	 }
-	 
-	 public byte [][] getbitMapData(){
-		 
-		 return this.bmpData;
-	 }
-	 
-	 public byte [][] getColorTable(){
-		 
-		 return this.colorTable;
-	 }
-
+	
 	 public String toString(){
 		 
 		 System.out.println("The bitmap file header:");
@@ -211,52 +201,7 @@ public class BMP {
 		 
 	 }
 	 	
-	//output the processed bmp
-	public void outPut(String dest,int threshold) throws Exception{
-		
-		 FileOutputStream fos=new FileOutputStream(dest);
-		 DataOutputStream dos = new DataOutputStream(fos);
-		 int average=0;
-		 byte [] temp=new byte[4];
-		 
-		 dos.write(this.bmpheader);
-		 dos.write(this.filesize);
-		 dos.write(this.reservedWord);
-		 dos.write(this.bitmapOffset);
-		 dos.write(this.bitmapInfoSize);
-		 dos.write(this.width);
-		 dos.write(this.height);
-		 dos.write(this.bitPlane);
-		 dos.write(this.bitCount);
-		 dos.write(this.compressionType);
-		 dos.write(this.imageSize);
-		 dos.write(this.XpixelPerMeter);
-		 dos.write(this.YpixelPerMeter);
-		 dos.write(this.colorUsed);
-		 dos.write(this.importantColor);
-				 
-		 for(int m=0;m<colorTable.length;m++){
-			 
-			   average = (colorTable[m][0]&0xff+colorTable[m][1]&0xff+colorTable[m][2]&0xff)/3;	 
-			   if(average >= threshold){
-				   temp[0]=(byte) 0xff; temp[1]=(byte)0xff; temp[2]=(byte)0xff; temp[3]=(byte)0xff;
-				 }
-			   else{ 
-				   temp[0]=0; temp[1]=0; temp[2]=0; temp[3]=0;
-				 }
-			   dos.write(temp);
-			 }
-		 	
-		 for(int i = 0; i < bmpData.length; i++)
-			 {
-				for(int j=0; j<bmpData[i].length;j++)
-				{
-					
-					dos.write(bmpData[i][j]);
-				}			 
-			 }
-		fos.close();dos.close();
-	}
+	
 	//converts a 16-bit or 32-bit number  stored in Big-Endian byte order into int
 		protected static int Byte2Int(byte [] b)
 		    {	if(b.length == 4)
@@ -272,19 +217,147 @@ public class BMP {
 			   b[2] = (byte) ((i>>16)&0xff);
 			   b[1] = (byte) ((i>>8)&0xff);
 			   b[0] = (byte) (i&0xff);
-		    }	
-	
-	public static void main(String[] args){
-		String src="images\\Lena.bmp";
-		 try {
-			 	BMP bmp = new BMP(src);
-			 	bmp.toString();
-			 	bmp.outPut("lena2.bmp",30);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			    e.printStackTrace();
+		    }
+
+		public byte[] getBmpheader() {
+			return bmpheader;
 		}
+
+		public void setBmpheader(byte[] bmpheader) {
+			this.bmpheader = bmpheader;
+		}
+
+		public byte[] getFilesize() {
+			return filesize;
+		}
+
+		public void setFilesize(byte[] filesize) {
+			this.filesize = filesize;
+		}
+
+		public byte[] getReservedWord() {
+			return reservedWord;
+		}
+
+		public void setReservedWord(byte[] reservedWord) {
+			this.reservedWord = reservedWord;
+		}
+
+		public byte[] getBitmapOffset() {
+			return bitmapOffset;
+		}
+
+		public void setBitmapOffset(byte[] bitmapOffset) {
+			this.bitmapOffset = bitmapOffset;
+		}
+
+		public byte[] getBitmapInfoSize() {
+			return bitmapInfoSize;
+		}
+
+		public void setBitmapInfoSize(byte[] bitmapInfoSize) {
+			this.bitmapInfoSize = bitmapInfoSize;
+		}
+
+		public byte[] getWidth() {
+			return width;
+		}
+
+		public void setWidth(byte[] width) {
+			this.width = width;
+		}
+
+		public byte[] getHeight() {
+			return height;
+		}
+
+		public void setHeight(byte[] height) {
+			this.height = height;
+		}
+
+		public byte[] getBitPlane() {
+			return bitPlane;
+		}
+
+		public void setBitPlane(byte[] bitPlane) {
+			this.bitPlane = bitPlane;
+		}
+
+		public byte[] getBitCount() {
+			return bitCount;
+		}
+
+		public void setBitCount(byte[] bitCount) {
+			this.bitCount = bitCount;
+		}
+
+		public byte[] getCompressionType() {
+			return compressionType;
+		}
+
+		public void setCompressionType(byte[] compressionType) {
+			this.compressionType = compressionType;
+		}
+
+		public byte[] getImageSize() {
+			return imageSize;
+		}
+
+		public void setImageSize(byte[] imageSize) {
+			this.imageSize = imageSize;
+		}
+
+		public byte[] getXpixelPerMeter() {
+			return XpixelPerMeter;
+		}
+
+		public void setXpixelPerMeter(byte[] xpixelPerMeter) {
+			XpixelPerMeter = xpixelPerMeter;
+		}
+
+		public byte[] getYpixelPerMeter() {
+			return YpixelPerMeter;
+		}
+
+		public void setYpixelPerMeter(byte[] ypixelPerMeter) {
+			YpixelPerMeter = ypixelPerMeter;
+		}
+
+		public byte[] getColorUsed() {
+			return colorUsed;
+		}
+
+		public void setColorUsed(byte[] colorUsed) {
+			this.colorUsed = colorUsed;
+		}
+
+		public byte[] getImportantColor() {
+			return importantColor;
+		}
+
+		public void setImportantColor(byte[] importantColor) {
+			this.importantColor = importantColor;
+		}
+
+		public byte[][] getColorTable() {
+			return colorTable;
+		}
+
+		public void setColorTable(byte[][] colorTable) {
+			this.colorTable = colorTable;
+		}
+
+		public byte[][] getBmpData() {
+			return bmpData;
+		}
+
+		public void setBmpData(byte[][] bmpData) {
+			this.bmpData = bmpData;
+		}
+
 		
 		
-	}
+	
+
+	
 }
