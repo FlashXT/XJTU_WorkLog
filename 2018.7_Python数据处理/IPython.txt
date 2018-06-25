@@ -1,0 +1,353 @@
+IPython:一种交互式计算和开发环境
+1.IPython基础：
+    *Tab键自动补全
+	*内省： 一个问号(?)显示有关对象的一些通用信息
+	        两个问号(??)显示函数的源代码
+			通配符*显示出所有以该通配符表达式相匹配的名称
+	*%run命令： %run pythonfile.py,空的命名空间中运行；
+	            %run -i pythonfile.py 可以访问交互式IPython命名空间中的变量
+	*中断正在执行的代码： Ctrl + C
+	*代码粘贴： %paste :在IPython中,输入%paste，直接会把剪贴板中的内容输入到IPython中；
+	            %cpaste:打开粘贴模式，手动进行复制粘贴，输入‘--’或按“Ctrl+D”退出。
+				
+2.IPython常用命令：
+    *魔术命令(以%为前缀的命令)：
+		 -------------------------------------------------------------------------------
+		 %magic         		显示所有魔术命令的详细文档
+		 %quickref      		显示IPython的快速参考
+		 %hist          		显示历史命令，%hist -f fielname.py 将历史命令保存为文件
+		 %paste,%cpaste 		粘贴剪贴板中的代码
+		 %reset         		删除interactive命名空间中的全部变量和名称
+		 %run xxx.py    		执行一个python脚本
+		 %prun statement 		通过cProfile执行statement,并打印分析器的输出结果
+		 %debug					从最新的异常跟踪的底部进入交互是调试器
+		 %pdb					异常发生后自动进入调试器
+		 %time statement        报告statemnt的执行时间
+		 %timeit statement      多次执行statement以计算平均执行时间，对那些执行时间很短
+		                        的小程序很有用
+		 %who、%who_ls、%whos   显示interactive命名空间中定义的变量，信息级别/冗余度可变
+		 %xdel variable         删除variable,并尝试清除其在IPyhton中的对象上的一切引用
+		---------------------------------------------------------------------------------
+		
+3.输入与输出变量：
+	       在IPython中会将输入和输出的引用保存在一些特殊的变量中。最近的两个输出结果分别保
+		存在_（一个下划线）和__(两个下划线)变量中；输入的文本倍保存在名为——iX的变量中（X为
+		行号）。每个输入变量都有一个对应的输出变量_X.例如：在输入完27行后，就会产生两个新
+		变量_27(输出变量)和_i27(输入变量)。还可以用exec _i27执行该命令；
+		
+4.与操作系统进行交互：
+	      在IPython中，只需要在shell命令前面加上！,便可以在IPython中执行shell命令；
+5.目录书签系统：%bookmark，书签会被自动持久化。
+			  设置书签:	In[123]: %bookmark  db /home/wesm/Dropbox/
+			  使用书签：In[124]: cd  db 
+						(bookmark:db) -> /home/wesm/Dropbox/
+						/home/wesm/Dropbox/
+			  删除书签：In[125]:%bookmark -drl db
+			  列出当前工作目录中的所有书签：%bookmark -l
+6.交互式调试器(ipdb)：
+   ①run xxx.py
+		In [4]: run PythonDataAnalysis/ipython_bug.py
+		---------------------------------------------------------------------------
+		AssertionError                            Traceback (most recent call last)
+		E:\Python_WorkSpace\Python\PythonDataAnalysis\ipython_bug.py in <module>()
+			 12     works_fine()
+			 13     throws_an_exception()
+		---> 14 calling_things()
+
+		E:\Python_WorkSpace\Python\PythonDataAnalysis\ipython_bug.py in calling_things()
+			 11 def calling_things():
+			 12     works_fine()
+		---> 13     throws_an_exception()
+			 14 calling_things()
+
+		E:\Python_WorkSpace\Python\PythonDataAnalysis\ipython_bug.py in throws_an_exception()
+			  7     a = 5
+			  8     b = 6
+		----> 9     assert(a + b == 10)
+			 10
+			 11 def calling_things():
+
+		AssertionError:
+   ②%debug
+		In [5]: %debug
+		> e:\python_workspace\python\pythondataanalysis\ipython_bug.py(9)throws_an_exception()
+			  7     a = 5
+			  8     b = 6
+		----> 9     assert(a + b == 10)
+			 10 
+			 11 def calling_things():
+
+		ipdb> 
+	   在这个调试器中，可以执行任意python代码并查看各个栈帧中的一切对象和数据。默认从最低级别开始的
+   （即错误发生的地方）。输入 u(或up)和d(down)即可在栈跟踪的个级别之间切换：
+		ipdb> u
+		> e:\python_workspace\python\pythondataanalysis\ipython_bug.py(13)calling_things()
+			 10 
+			 11 def calling_things():
+			 12     works_fine()
+		---> 13     throws_an_exception()
+			 14 calling_things()
+
+		ipdb> u
+		> e:\python_workspace\python\pythondataanalysis\ipython_bug.py(14)<module>()
+			 10 
+			 11 def calling_things():
+			 12     works_fine()
+			 13     throws_an_exception()
+		---> 14 calling_things()
+	在运行程序前，执行%pdb命令。可以在程序运行错误时，自动调用调试器。
+		In [8]: %pdb
+		Automatic pdb calling has been turned OFF
+
+		In [9]: %pdb
+		Automatic pdb calling has been turned ON
+	单步调试和设置断点：（使用带有-d选项的%run命令,然后输入s进入脚本）
+		In [10]: run -d PythonDataAnalysis/ipython_bug.py
+		Breakpoint 1 at e:\python_workspace\python\pythondataanalysis\ipython_bug.py:1
+		NOTE: Enter 'c' at the ipdb>  prompt to continue execution.
+		> e:\python_workspace\python\pythondataanalysis\ipython_bug.py(1)<module>()
+		1---> 1 def works_fine():
+			  2     a = 5
+			  3     b = 6
+			  4     assert(a + b == 11)
+			  5 
+
+		ipdb> s
+		
+	  设置断点: b 行号 （或 run -d -b12 PythonDataAnalysis/ipython_bug.py）
+		ipdb> b 12 (在12行设置断点)
+		Breakpoint 2 at e:\python_workspace\python\pythondataanalysis\ipython_bug.py:12
+		ipdb> c （输入c(continue)使程序一直运行到断点处）
+		> e:\python_workspace\python\pythondataanalysis\ipython_bug.py(12)calling_things()
+			 10 
+			 11 def calling_things():
+		2--> 12     works_fine()
+			 13     throws_an_exception()
+			 14 calling_things()
+
+		ipdb> n（输入n(next)直接执行到下一行）
+	    在参数名前加！号，可以查看参数的值；
+			e:\python_workspace\python\pythondataanalysis\ipython_bug.py(9)throws_an_exception()
+			  7     a = 5
+			  8     b = 6
+			----> 9     assert(a + b == 10)
+				 10 
+				 11 def calling_things():
+
+			ipdb> !a
+			5
+			ipdb> !b
+			6
+7.测试代码的执行时间：%time,%timeit
+	 %time statement        报告statemnt的执行时间
+	 %timeit statement      多次执行statement以计算平均执行时间，对那些执行时间很短
+		                    的小程序很有用 
+8.基本性能分析：%prun和%run -p
+    Python的性能分析工具主要使cProfile模块，cProfile在执行一个程序或代码块时，会记录个函数所耗费的时间；
+	cProfile在命令行上使用，它将执行整个程序然后输出各个函数的执行时间。cProfile记录的是各个函数调用的
+	起始和结束时间，并依此计算总时间。
+    ①python -m cProfile xxx.py（执行后，输出结果按函数名排序）
+	 python -m cProfile example.py
+		Largest one we saw : 11.710484175559323
+				 22579 function calls (22248 primitive calls) in 0.760 seconds
+
+		   Ordered by: standard name
+
+		   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+				1    0.000    0.000    0.000    0.000 <string>:1(<module>)
+				1    0.000    0.000    0.000    0.000 <string>:1(DecimalTuple)
+				1    0.000    0.000    0.000    0.000 <string>:1(Match)
+				1    0.000    0.000    0.000    0.000 <string>:1(Mismatch)
+	②python -m cProfile -s cumulative example.py (选项-s,排序规则)
+		Largest one we saw : 11.137756068262101
+			 22579 function calls (22248 primitive calls) in 0.741 seconds
+
+		   Ordered by: cumulative time
+
+		   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+				1    0.004    0.004    0.741    0.741 example.py:1(<module>)
+				1    0.001    0.001    0.542    0.542 example.py:3(run_experiment)
+			  100    0.503    0.005    0.509    0.005 linalg.py:834(eigvals)
+				5    0.041    0.008    0.273    0.055 __init__.py:1(<module>)
+				1    0.014    0.014    0.195    0.195 __init__.py:106(<module>)
+				1    0.002    0.002    0.155    0.155 add_newdocs.py:10(<module>)
+      除命令行用法之外，cProfile还可以以编程的方式分析任意代码块的性能。IPython为此提供了一个接口，
+    即%prun和带-p选项的%run.%prun分析的是Python语句而不是整个.py文件.
+	①In [4]: %prun -l 7 -s cumulative run_experiment()
+         3803 function calls in 0.544 seconds
+
+		   Ordered by: cumulative time
+		   List reduced from 30 to 7 due to restriction <7>
+
+		   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+				1    0.000    0.000    0.544    0.544 <string>:1(<module>)
+				1    0.001    0.001    0.544    0.544 <ipython-input-3-f1009b6e2c6d>:3(run_experiment)
+			  100    0.504    0.005    0.510    0.005 linalg.py:834(eigvals)
+			  100    0.032    0.000    0.032    0.000 {method 'randn' of 'mtrand.RandomState' objects}
+			  300    0.002    0.000    0.002    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+		   ---Return to continue, q to quit---
+	②In [5]: %run -p -s cumulative example.py
+		Largest one we saw : 11.929861349573931
+				 3916 function calls (3914 primitive calls) in 0.551 seconds
+
+		   Ordered by: cumulative time
+
+		   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+				1    0.000    0.000    0.551    0.551 <string>:1(<module>)
+				1    0.000    0.000    0.551    0.551 interactiveshell.py:2433(safe_execfile)
+				1    0.000    0.000    0.550    0.550 py3compat.py:269(execfile)
+				1    0.000    0.000    0.550    0.550 example.py:1(<module>)
+				1    0.001    0.001    0.549    0.549 example.py:3(run_experiment)
+			  100    0.511    0.005    0.516    0.005 linalg.py:834(eigvals)
+		---Return to continue, q to quit---
+9.逐行分析函数性能（line_profiler）
+	①安装line_profiler:pip install line_profiler;(需要安装VCForPython27.msi)
+	②修改IPython配置文件，启用line_profiler扩展;
+	  a.生成ipython_config.py ：ipython profile create
+	  b.启用扩展：
+		## A list of dotted module names of IPython extensions to load.
+		c.InteractiveShellApp.extensions = ['line_profiler']
+	③使用练习：
+	 模块prof_mod：
+			from numpy.random import randn
+			def add_and_sum(x,y):
+				added = x + y
+				summed = added.sum(axis = 1)
+				return summed
+			def call_function():
+				x = randn(1000,1000)
+				y = randn(1000,1000)
+				return add_and_sum(x,y)
+				
+		In [1]: %run prof_mod
+
+		In [2]: x = randn(3000,3000)
+
+		In [3]: y = randn(3000,3000)
+
+		In [4]: %prun add_and_sum(x,y)
+				 6 function calls in 0.110 seconds
+
+		   Ordered by: internal time
+
+		   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+				1    0.062    0.062    0.102    0.102 prof_mod.py:2(add_and_sum)
+				1    0.040    0.040    0.040    0.040 {method 'reduce' of 'numpy.ufunc' objects}
+				1    0.007    0.007    0.110    0.110 <string>:1(<module>)
+				1    0.000    0.000    0.040    0.040 {method 'sum' of 'numpy.ndarray' objects}
+				1    0.000    0.000    0.040    0.040 _methods.py:31(_sum)
+				1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+	%lprun -f func1 -f func2 statement_to_profile 命令：
+	
+		In [5]: %lprun -f add_and_sum add_and_sum(x,y)
+		Timer unit: 3.11021e-07 s
+
+		Total time: 0.0556052 s
+		File: E:\Python_WorkSpace\Python\PythonDataAnalysis\prof_mod.py
+		Function: add_and_sum at line 2
+
+		Line #      Hits         Time  Per Hit   % Time  Line Contents
+		==============================================================
+			 2                                           def add_and_sum(x,y):
+			 3         1     137335.0 137335.0     76.8         added = x + y
+			 4         1      41442.0  41442.0     23.2         summed = added.sum(axis = 1)
+			 5         1          6.0      6.0      0.0         return summed
+	%lprun -f add_and_sum -f call_function call_function()命令：
+		In [6]: %lprun -f add_and_sum -f call_function call_function()
+		Timer unit: 3.11021e-07 s
+
+		Total time: 0.00492968 s
+		File: E:\Python_WorkSpace\Python\PythonDataAnalysis\prof_mod.py
+		Function: add_and_sum at line 2
+
+		Line #      Hits         Time  Per Hit   % Time  Line Contents
+		==============================================================
+			 2                                           def add_and_sum(x,y):
+			 3         1      11157.0  11157.0     70.4         added = x + y
+			 4         1       4688.0   4688.0     29.6         summed = added.sum(axis = 1)
+			 5         1          5.0      5.0      0.0         return summed
+
+		Total time: 0.067363 s
+		File: E:\Python_WorkSpace\Python\PythonDataAnalysis\prof_mod.py
+		Function: call_function at line 6
+
+		Line #      Hits         Time  Per Hit   % Time  Line Contents
+		==============================================================
+			 6                                           def call_function():
+			 7         1      99100.0  99100.0     45.8         x = randn(1000,1000)
+			 8         1      99742.0  99742.0     46.1         y = randn(1000,1000)
+			 9         1      17745.0  17745.0      8.2         return add_and_sum(x,y)
+10.IPython HTML Notebook(jupyter notebook):
+     jupyter notebook是一个运行于命令行上的轻量级服务器进程，通过jupyter notebook启动:,它有一种基于JSON的文档格式.ipynb.
+    ①安装jupyter:pip install jupyter
+	②生成jupyter notebook配置文件：jupyter notebook --generate-config：
+	③设置jupyter的默认目录：
+		## The directory to use for notebooks and kernels.
+		c.NotebookApp.notebook_dir = u'E:\Python_WorkSpace\JupyterNotebook'
+	④启动：jupyter notebook
+11.其他：
+    基于Qt的富GUI控制台：jupyter qtconsole
+	matplotlib集成与pylab模式： ipython --pylab
+	重新加载模块依赖项：在Python中，当你输入import some_lib时，some_lib中的代码就会被执行，且其中所有的变量、函数和引入项
+	                    都会被保存在一个新建的some_lib模块命名空间中。下次你再输入import some_lib时，就会得到这个模块命名
+						空间的一个引用。而这对于IPython的交互式代码开发模式就会有一个问题，比如说，用%run执行的某段脚本中
+						牵扯到了某个刚刚做了修改的模块。假设我们有一个test_script.py文件，其中有下列代码：
+															import some_lib  
+									 
+															x = 5 
+															y = [1, 2, 3, 4]  
+															result = some_lib.get_answer(x, y) 
+						如果在执行了%run test_script.py之后又对some_lib.py进行了修改，下次再执行%run test_script.py时将仍然
+						会使用老版的some_lib。其原因就是Python的“一次加载”模块系统。这个行为不同于其他一些数据分析环境
+						（如MATLAB，它会自动应用代码修改注1）。为了解决这个问题，你有两个办法可用。第一个办法是使用Python
+						内置的reload函数。将test_script.py修改成下面这个样子：
+															import some_lib  
+															reload(some_lib)  
+															 
+															x = 5 
+															y = [1, 2, 3, 4]  
+															result = some_lib.get_answer(x, y)
+						这样就保证每次执行test_script.py时都能用上最新版的some_lib了。显然，当依赖变得更强时，就需要在很多地方插
+						入很多的reload。对于这个问题，IPython提供了一个特殊的dreload函数（非魔术函数）来解决模块的“深度”（递归）
+						重加载。如果执行import some_lib之后再输入dreload(some_lib)，则它会尝试重新加载some_lib及其所有的依赖项。
+						遗憾的是，这个办法也不是万灵丹，但是如果真的不行了，重启IPython就行了。
+	让你的类对IPython更友好：IPython力求为各种对象呈现一个友好的字符串表示。对于许多对象（如字典、列表和元组等），内置的pprint模块
+							 就能给出漂亮的格式。但是队医自定义的那些类，就必须自己生成所需的字符串输出。
+														 class Message:
+															def __init__(self,msg):
+																self.msg = msg
+							
+							In [2]: x = Message("Ipython NoteBook")
+							In [3]: x
+							Out[3]: <__main__.Message instance at 0x0000000004377C08>
+							由于IPython会获取__repr__方法返回的字符串（具体方法是output= repr(obj)）,并将其显示到控制台上。因此，为上
+							面的类添加一个__repr__方法以得到一个更有意义的输出形式：
+														class Message:
+															def __init__(self,msg):
+																self.msg = msg
+
+															def __repr__(self):
+																return "Message : %s" % self.msg
+							
+							In [6]: x = Message("Ipython NoteBook")
+
+							In [7]: x
+							Out[7]: Message : Ipython NoteBook
+
+						
+
+
+
+	  
+	  
+
+
+
+
+
+	
+
+
+	             
+	  
+	 
