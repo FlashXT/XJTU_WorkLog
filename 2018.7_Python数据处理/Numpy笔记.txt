@@ -1,0 +1,99 @@
+1.Ndarray: 一种多维数组对象
+
+	array.shape                         array的规格
+	array.ndim      
+	array.dtype                         array的数据规格
+	numpy.zeros(dim1,dim2)              创建dim1*dim2的零矩阵
+	numpy.arange
+	numpy.eye(n) /numpy.identity(n)     创建n*n单位矩阵
+	numpy.array([…data…], dtype=float64 )
+	array.astype(numpy.float64)         更换矩阵的数据形式
+	array.astype(float)                 更换矩阵的数据形式
+	array * array                       矩阵点乘
+	array[a:b]                          切片
+	array.copy()                        得到ndarray的副本，而不是视图
+	array [a] [b]=array [ a, b ]        两者等价
+	name=np.array(['bob','joe','will']) res= name==’bob’ res= array([ True, False, False], dtype=bool)
+	data[True,False,…..]                索引，只索取为True的部分，去掉False部分通过布尔型索引选取数组中
+										的数据，将总是创建数据的副本。
+	data[ [4,3,0,6] ]                   索引，将第4,3,0,6行摘取出来，组成新数组
+	data[-1]=data[data.__len__()-1]
+	numpy.reshape(a,b)                  将a*b的一维数组排列为a*b的形式
+	array([a,b,c,d],[d,e,f,g])          返回一维数组，分别为[a,d],[b,e],[c,f],[d,g]
+	array[ [a,b,c,d] ][:,[e,f,g,h] ]=array[ numpy.ix_( [a,b,c,d],[e,f,g,h] ) ]
+	array.T                             array的转置
+	numpy.random.randn(a,b)             生成a*b的随机数组
+	numpy.dot(matrix_1,matrix_2)        矩阵乘法
+	array.transpose( (1,0,2,etc.) )     对于高维数组，转置需要一个由轴编号组成的元组
+	
+2.ufunc：通用函数，简单函数的矢量化包装
+
+	一元ufunc
+	numpy.sqrt(array)                   平方根函数,相当于array**0.5
+	numpy.exp(array)                    e^array[i]的数组
+	numpy.abs/fabs(array)               计算绝对值,abs可以用于复数，fabs更快
+	numpy.square(array)                 计算各元素的平方 等于array**2
+	numpy.log/log10/log2(array)         计算各元素的各种对数
+	numpy.sign(array)                   计算各元素正负号
+	numpy.isnan(array)                  计算各元素是否为NaN
+	numpy.cos/cosh/sin/sinh/tan/tanh(array) 三角函数
+	numpy.modf(array)                   将array中值得整数和小数分离，作两个数组返回
+
+	二元ufunc
+	numpy.add(array1,array2)            元素级加法
+	numpy.subtract(array1,array2)       元素级减法
+	numpy.multiply(array1,array2)       元素级乘法
+	numpy.divide(array1,array2)         元素级除法 array1./array2
+	numpy.power(array1,array2)          元素级指数 array1.^array2
+	numpy.maximum/minimum(array1,aray2) 元素级最大值
+	numpy.fmax/fmin(array1,array2)      元素级最大值，忽略NaN
+	numpy.mod(array1,array2)            元素级求模
+	numpy.copysign(array1,array2)       将第二个数组中值得符号复制给第一个数组中值
+	numpy.greater/greater_equal/less/less_equal/equal/not_equal (array1,array2)
+	元素级比较运算，产生布尔数组
+	numpy.logical_end/logical_or/logic_xor(array1,array2)元素级的真值逻辑运算
+	
+3.	np.meshgrid(array1,array2)              产生两个矩阵，对应两个数组中所有(x,y)对
+	e.g.
+	[IN]a=np.arange(-5,5,0.1)
+	[IN]x,y=np.meshgrid(a,a)
+	[OUT]x=array([[a[0],a[1],a[2],…,a[n-3],a[n-2],a[n-1],
+		   [a[0],a[1],a[2],…,a[n-3],a[n-2],a[n-1],
+		   [a[0],a[1],a[2],…,a[n-3],a[n-2],a[n-1],
+		   ...,
+		   [a[0],a[1],a[2],…,a[n-3],a[n-2],a[n-1],
+		   [a[0],a[1],a[2],…,a[n-3],a[n-2],a[n-1],
+		   [a[0],a[1],a[2],…,a[n-3],a[n-2],a[n-1]])
+	[OUT]y=array([[b[0],b[0],b[0], ...,b[0],b[0],b[0],
+		   [b[1],b[1],b[1], ...,b[1],b[1],b[1],
+		   [b[2],b[2],b[2], ...,b[2],b[2],b[2],
+		   ...,
+		   [b[n-3],b[n-3],b[n-3], ...,b[n-3],b[n-3],b[n-3],
+		   [b[n-2],b[0]n-2b[0], n-2..,b[0],b[0n-2,b[n-2],
+		   [b[n-1],b[n-1],b[n-1], ...,b[n-1],b[n-1],b[n-1]]) 
+	[IN] Z=plt.imshow(z) ;plt.colorbar()
+	
+4.Out=Np.where(bool_array, array1, array2)  out[i]=array1[i] if bool_array[i] else array2[i]
+                                            Array1和array2也可以是标量值
+	array.sum()/mean()                      计算矩阵的和/均值，结果是一个数
+    array.sum(axis=1)/mean(axis=1)          计算该轴向上的和/均值，结果是低1维数组
+    array.std()/var()                       计算标准差和方差，可以指定轴
+    array.min()/max()
+    array.argmin()/argmax()                 计算最小值和最大值的索引
+    array.cumsum()/cumprod                  计算该轴从0至当前值的和/积
+    array.any()/all()                       检查是否 至少有一个/全部都是 True
+    array.sort()                
+5.  numpy.unique(array)                     找出数组中的唯一值，返回一维数组
+    numpy.intersect1d(x,y)                  计算x and y的公共元素
+    numpy.union1d(x,y)                      计算x和y的并集
+    numpy.in1d(x,y)                         得到x是否包含于y的布尔数组
+    numpy.setdiff1d(x,y)                    得到在x中而不在y中的集合
+    numpy.setxor1d(x,y)                     得到只存在x,y中而不同属于x,y的集合
+6.线性代数 from numpy.linalg import inv , qr
+	inv(matrix)                             求逆
+    diag(array/matrix)                      将array转换为对角方阵，或者将matrix对角元素抽出来
+    trace(matrix)                           求迹
+    det(matrix)                             求行列式
+    eig(matrix)                             求方阵的本征值和本征向量
+    svd(matrix)                             SVD分解
+    solve(matrix,array)                     解matrix * x= array 的解

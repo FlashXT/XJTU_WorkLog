@@ -1,3 +1,0 @@
-cmd===>mstsc( (Microsoft terminal services client))===>202.117.10.189
-Account:xutong
-PassWord:xt@Sun
